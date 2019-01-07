@@ -1,0 +1,55 @@
+
+
+public class RodCutRecursive1 {
+
+	
+	public static void main(String args[]) {
+		int arr[] = new int[] {1,5,8,9,10,17,17,20,24,30};
+		int len = arr.length;
+		
+		int[] table1 = new int[len+1];
+		int[] table2 = new int[len+1];
+		
+		RodCutRecursive1 rod = new RodCutRecursive1();
+		rod.cutRod(arr,len-1,table1,table2);
+		
+		System.out.println(table1[len-3]);
+		
+		rod.printValue(arr,table2,len-3);
+	}
+	
+	
+	public void printValue(int[] arr, int[] table2, int len) {
+		if(len<0) {
+			System.out.println("");
+		}else {
+			System.out.print(arr[table2[len]]+ " ");
+			printValue(arr,table2,len-1-table2[len]);
+		}
+	}
+	
+	
+	public int cutRod(int[] arr, int len, int[] table1, int[] table2) {
+		if(len<0) {
+			return 0;
+		}else if(table1[len]!=0) {
+			return table1[len];
+		}else {
+			int q = Integer.MIN_VALUE;
+			int x=0,p=0;
+			
+			for(int i=0;i<=len;i++) {
+				p = arr[i] + cutRod(arr,len-1-i,table1,table2);
+				if(q<p) {
+					x = i;
+					q = p;
+				}
+			}
+			
+			table2[len] = x;
+			table1[len] = q;
+			return q;
+		}
+	}
+	
+}
