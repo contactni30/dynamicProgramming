@@ -1,0 +1,59 @@
+package optimalSolution1;
+
+public class RodCutBU {
+
+	
+	public static void main(String args[]) {
+		int arr[] = new int[] {1,5,8,9,10,17,17,20,24,30};
+		int len = arr.length;
+		
+		
+		int[] table1 = new int[len+1];
+		int[] table2 = new int[len+1];
+		
+		RodCutBU rod = new RodCutBU();
+		rod.cutRod(arr,table1,table2);
+		
+		System.out.println(table1[9]);
+		
+		rod.printValue(arr,table2,9);
+	}
+	
+	
+	public void printValue(int[] arr, int[] table2, int len) {
+		if(len<=0) {
+			System.out.println("");
+		}else {
+			System.out.print(arr[table2[len]-1]+"  ");
+			printValue(arr,table2,len-table2[len]);
+		}
+	}
+	
+	
+	public void cutRod(int[] arr, int[] table1, int[] table2) {
+		int len = arr.length;
+		table1[0] = 0;
+		table1[1] = arr[0];
+		table2[0] = 0;
+		table2[1] = 1;
+		int q = Integer.MIN_VALUE;
+		int p = 0, x = 0;
+		
+		for(int i=1;i<len;i++) {
+			q = Integer.MIN_VALUE;
+			p = 0;
+			x = 0;
+			for(int j=0;j<=i;j++) {
+				p = arr[j] + table1[i-j];
+				if(q<p) {
+					q = p;
+					x = j + 1;
+				}
+			}
+			
+			table1[i+1] = q;
+			table2[i+1] = x;
+		}
+		
+	}
+}
