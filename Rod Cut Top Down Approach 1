@@ -1,0 +1,61 @@
+package optimalSolution;
+
+
+public class RodCutRecursive {
+
+	static int count = 0;
+	
+	public static void main(String args[]) {
+		int arr[] = new int[] {1,5,8,9,10,17,17,20,24,30};
+		int len = arr.length;
+		
+		int[] table1 = new int[len+1];
+		String[] table2 = new String[len+1];
+		for(int i=0;i<=len;i++) {
+			table2[i] = "";
+		}
+		
+		long start = System.nanoTime();
+		
+		RodCutRecursive rod = new RodCutRecursive();
+		int res = rod.evaluate(arr,len-1,table1,table2);
+		
+		long end = System.nanoTime();
+		System.out.println("time occured : "+(end - start));
+		
+		for(int i=0;i<=len;i++) {
+		System.out.println(table2[i]);
+		}
+		
+		System.out.println("count  : "+count);
+	}
+	
+	
+	public int evaluate(int[] arr, int len,int[] table1, String[] table2) {
+		count++;
+		if(len<0) {
+			return 0;
+		}else if(table1[len]!=0){
+			return table1[len];
+		}else {
+			int q = Integer.MIN_VALUE;
+			int p = -1;
+			for(int i=0;i<=len;i++) {
+				int x = arr[i]+evaluate(arr,len-i-1,table1,table2);
+				if(q<x) {
+					p = i;
+					q = x;
+				}
+			}
+			
+			if(len-p-1==-1) {
+				table2[len] = arr[p] +" ";
+			}else {
+				table2[len] = arr[p] + "  "+table2[len-p-1];
+			}
+			
+			table1[len] = q;
+			return q;
+		}
+	}
+}
