@@ -18,7 +18,7 @@ public class RodCutRecursive1 {
 		rod.printValue(arr,table2,len-3);
 	}
 	
-	
+	// printing the optimal solution
 	public void printValue(int[] arr, int[] table2, int len) {
 		if(len<0) {
 			System.out.println("");
@@ -29,6 +29,7 @@ public class RodCutRecursive1 {
 	}
 	
 	
+	// This methods takes less time to execute as compared to approach 1
 	public int cutRod(int[] arr, int len, int[] table1, int[] table2) {
 		if(len<0) {
 			return 0;
