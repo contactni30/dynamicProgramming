@@ -7,8 +7,9 @@ public class RodCutBU {
 		int arr[] = new int[] {1,5,8,9,10,17,17,20,24,30};
 		int len = arr.length;
 		
-		
+		// conatins optimal value
 		int[] table1 = new int[len+1];
+		// contains value of first cut of optimal solution
 		int[] table2 = new int[len+1];
 		
 		RodCutBU rod = new RodCutBU();
@@ -19,7 +20,7 @@ public class RodCutBU {
 		rod.printValue(arr,table2,9);
 	}
 	
-	
+	// Prints optimal solution
 	public void printValue(int[] arr, int[] table2, int len) {
 		if(len<=0) {
 			System.out.println("");
@@ -29,7 +30,7 @@ public class RodCutBU {
 		}
 	}
 	
-	
+	// Calculates Optimal value in bottom up order
 	public void cutRod(int[] arr, int[] table1, int[] table2) {
 		int len = arr.length;
 		table1[0] = 0;
