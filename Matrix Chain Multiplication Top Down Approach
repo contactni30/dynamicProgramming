@@ -1,0 +1,63 @@
+package optimalSolution;
+
+public class MatrixChainRecursive {
+	
+	static int count = 0;
+	
+	public static void main(String args[]) {
+		int arr[] = new int[] {30,35,15,5,10,20,25};
+		int len = arr.length;
+		
+		// Contains optimal value 
+		int[][] table1 = new int[len][len];
+    // Contains the point of split of optimal solution
+		int[][] table2 = new int[len][len];
+		
+		MatrixChainRecursive matrix = new MatrixChainRecursive();
+		matrix.evaluateMinCalc(arr,1,6,table1,table2);
+		
+		System.out.println(table1[1][6]);
+		//System.out.println(count);
+		
+		matrix.printOrder(table2,1,6);
+	}
+	
+  
+  /Prints the optimal Solution
+	public void printOrder(int[][] table2, int start, int end) {
+		if(start==end) {
+			System.out.print("A"+start);
+		}else {
+			System.out.print("(");
+			printOrder(table2,start,table2[start][end]);
+			printOrder(table2,table2[start][end]+1,end);
+			System.out.print(")");
+		}
+	}
+	
+	//Calulctaes optimal value and point of split of an optimal solution using top down approach
+	public int evaluateMinCalc(int[] arr, int start, int end, int[][] table1, int[][] table2) {	
+		count++;
+		if(start>=end) {
+			return 0;
+		}else if(table1[start][end]!=0){
+			return table1[start][end];
+		}else {
+			int q = Integer.MAX_VALUE;
+			int p = 0;
+			int x = 0;
+			for(int i=start;i<end;i++) {
+				p = evaluateMinCalc(arr,start,i,table1,table2) + evaluateMinCalc(arr,i+1,end,table1,table2) + 
+						arr[start-1]*arr[i]*arr[end];
+				if(q>p) {
+					q = p;
+					x = i;
+				}
+			}
+			
+			table1[start][end] = q;
+			table2[start][end] = x;
+			return q;
+		}
+	}
+}
