@@ -1,0 +1,67 @@
+package optimalSolution;
+
+public class LCSBU {
+
+	public static void main(String args[]) {
+		char[] X = new char[] {'A','B','C','B','D','A','B'};
+		char[] Y = new char[] {'B','D','C','A','B','A'};
+		int xl = X.length;
+		int yl = Y.length;
+		
+		// Stores Optimal Value
+		int[][] table1 = new int[xl+1][yl+1];
+    
+    // Stores Optimal Solution
+		String[][] table2 = new String[xl+1][yl+1];
+		
+		LCSBU lcs = new LCSBU();
+		lcs.optimalValue(X,Y,table1,table2);
+		
+		System.out.println(table1[xl][yl]);
+		
+		System.out.println(table2[xl][yl]);
+		
+	}
+	
+  
+  // Calculates Optimal Value and Optimal Solution in Bottom Up Approach
+	public void optimalValue(char[] X, char[] Y, int[][] table1, String[][] table2) {
+		int xl = X.length;
+		int yl = Y.length;
+		
+		for(int i=0;i<=xl;i++) {
+			for(int j=0;j<=yl;j++) {
+				table2[i][j] = "";
+			}
+		}
+		
+		for(int i=0;i<=xl;i++) {
+			table1[i][0] = 0;
+		}
+		
+		for(int i=0;i<=yl;i++) {
+			table1[0][i] = 0;
+		}
+		
+		for(int i=0;i<xl;i++) {
+			for(int j=0;j<yl;j++) {
+				if(X[i]==Y[j]) {
+					table1[i+1][j+1] = 1 + table1[i][j];
+					table2[i+1][j+1] = table2[i][j] + X[i];
+				}else {
+					int p = table1[i+1][j];
+					int q = table1[i][j+1];
+					if(p>q) {
+						table1[i+1][j+1] = p;
+						table2[i+1][j+1] = table2[i+1][j];
+					}else {
+						table1[i+1][j+1] = q;
+						table2[i+1][j+1] = table2[i][j+1];
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
