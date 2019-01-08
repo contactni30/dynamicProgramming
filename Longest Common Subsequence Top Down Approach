@@ -1,0 +1,60 @@
+package optimalSolution;
+
+public class LCSRecursive {
+
+	static int count = 0;
+	
+	public static void main(String args[]) {
+		char[] X = new char[] {'A','B','C','B','D','A','B'};
+		char[] Y = new char[] {'B','D','C','A','B','A'};
+		int xl = X.length;
+		int yl = Y.length;
+		
+		int[][] table1 = new int[xl+1][yl+1];
+		String[][] table2 = new String[xl+1][yl+1];
+		
+		for(int i=0;i<=xl;i++) {
+			for(int j=0;j<=yl;j++) {
+				table2[i][j] = "";
+			}
+		}
+		
+		
+		LCSRecursive lcs = new LCSRecursive();
+		lcs.optimalValue(X,Y,xl-1,yl-1,table1,table2);
+		
+		System.out.println(table1[xl][yl]);
+
+		System.out.println(table2[xl][yl]);
+		
+		System.out.println(count);
+	}
+	
+	
+	public int optimalValue(char[] X, char[] Y, int xl, int yl, int[][] table1, String[][] table2) {
+		count++;
+		
+		if(xl==-1 || yl==-1) {
+			return 0;
+		}else {
+			if(X[xl]==Y[yl]) {
+				table1[xl+1][yl+1] = 1 + optimalValue(X,Y,xl-1,yl-1,table1,table2);
+				table2[xl+1][yl+1] =  table2[xl][yl] + X[xl];
+				return table1[xl+1][yl+1];
+			}else if(table1[xl+1][yl+1]!=0){
+				return table1[xl+1][yl+1];
+			}else {
+				int p = optimalValue(X,Y,xl,yl-1,table1,table2);
+				int q = optimalValue(X,Y,xl-1,yl,table1,table2);
+				if(p>q) {
+					table1[xl+1][yl+1] = p;
+					table2[xl+1][yl+1] = table2[xl+1][yl];
+				}else {
+					table1[xl+1][yl+1] = q;
+					table2[xl+1][yl+1] = table2[xl][yl+1];
+				}
+				return table1[xl+1][yl+1];
+			}
+		}
+	}
+}
