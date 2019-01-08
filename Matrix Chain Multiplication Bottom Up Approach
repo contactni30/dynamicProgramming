@@ -1,0 +1,64 @@
+
+public class MatrixChainBU {
+
+	
+	public static void main(String args[]) {
+		int[] arr = new int[] {30,35,15,5,10,20,25};
+		int len = arr.length;
+		
+    // Contains Optimal value for particular start and end
+		int[][] table1 = new int[len][len];
+    // Contains the split location for particular start and end
+		int[][] table2 = new int[len][len];
+		
+		MatrixChainBU matrix = new MatrixChainBU();
+		matrix.evaluateMinCalc(arr,table1,table2);
+		
+		System.out.println(table1[1][6]);
+    
+    matrix.printOrder(table2,1,6);
+	}
+	
+  
+  // Prints Optimal solution
+  	public void printOrder(int[][] table2, int start, int end) {
+		if(start==end) {
+			System.out.print("A"+start);
+		}else {
+			System.out.print("(");
+			printOrder(table2,start,table2[start][end]);
+			printOrder(table2,table2[start][end]+1,end);
+			System.out.print(")");
+		}
+	}
+  
+  
+  
+	// Calculates Optimal Value and location for split  fro particular optimal solution in Bottom up Approach
+	public void evaluateMinCalc(int[] arr, int[][] table1, int[][] table2) {
+		int len = arr.length;
+		
+		for(int i=1;i<len;i++) {
+			table1[i][i] = 0;
+		}
+		
+		
+		for(int l=2;l<=len-1;l++) {
+			for(int i=1;i<len-l+1;i++) {
+				int j = i+l-1;
+				int q = Integer.MAX_VALUE;
+				int p = 0, x = 0;
+				for(int k=i;k<j;k++) {
+					p = table1[i][k] + table1[k+1][j] + arr[i-1]*arr[k]*arr[j];
+					if(q>p) {
+						q = p;
+						x = k;
+					}
+				}
+				table1[i][j] = q;
+				table2[i][j] = x;
+				
+			}
+		}
+	}
+}
