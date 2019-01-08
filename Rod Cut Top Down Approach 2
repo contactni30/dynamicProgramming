@@ -1,56 +1,52 @@
+package optimalSolution1;
 
-
-public class RodCutRecursive1 {
+public class RodCutTD {
 
 	
 	public static void main(String args[]) {
 		int arr[] = new int[] {1,5,8,9,10,17,17,20,24,30};
 		int len = arr.length;
 		
-		int[] table1 = new int[len+1];
-		int[] table2 = new int[len+1];
+		int table1[] = new int[len+1];
+		int table2[] = new int[len+1];
 		
-		RodCutRecursive1 rod = new RodCutRecursive1();
+		RodCutTD rod = new RodCutTD();
 		rod.cutRod(arr,len-1,table1,table2);
 		
-		System.out.println(table1[len-3]);
+		System.out.println(table1[9]);
 		
-		rod.printValue(arr,table2,len-3);
+		rod.printValue(arr,table2,9);
 	}
 	
 	// printing the optimal solution
 	public void printValue(int[] arr, int[] table2, int len) {
-		if(len<0) {
+		if(len<=0) {
 			System.out.println("");
 		}else {
-			System.out.print(arr[table2[len]]+ " ");
-			printValue(arr,table2,len-1-table2[len]);
+			System.out.print(arr[table2[len]-1]+"  ");
+			printValue(arr,table2,len-table2[len]);
 		}
 	}
-	
 	
 	// This methods takes less time to execute as compared to approach 1
 	public int cutRod(int[] arr, int len, int[] table1, int[] table2) {
 		if(len<0) {
 			return 0;
-		}else if(table1[len]!=0) {
-			return table1[len];
+		}else if(table1[len+1]!=0){
+			return table1[len+1];
 		}else {
 			int q = Integer.MIN_VALUE;
-			int x=0,p=0;
-			
+			int x = 0;
 			for(int i=0;i<=len;i++) {
-				p = arr[i] + cutRod(arr,len-1-i,table1,table2);
+				int p = arr[i] + cutRod(arr,len-i-1,table1,table2);
 				if(q<p) {
-					x = i;
 					q = p;
+					x = i + 1;
 				}
 			}
-			
-			table2[len] = x;
-			table1[len] = q;
+			table1[len+1] = q;
+			table2[len+1] = x;
 			return q;
 		}
 	}
-	
 }
