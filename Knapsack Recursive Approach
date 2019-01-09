@@ -1,0 +1,28 @@
+public class KnapsackRecursive {
+
+	public static void main(String args[]) {
+		int W = 165;
+		int[] value = new int[] {92,57,49,68,60,43,67,84,87,72};
+		int[] weight = new int[] {23,31,29,44,53,38,63,85,89,82};
+		
+		int len = value.length;
+		
+		KnapsackRecursive knap = new KnapsackRecursive();
+		int res = knap.evaluateValue(W,value,weight,0,len-1);
+		
+		System.out.println(res);
+	}
+	
+  // Calculates Optimal Value recursively
+	public int evaluateValue(int W, int[] value, int[] weight, int start,int end) {
+		if(W == 0 || start>end) {
+			return 0;
+		}else {
+			if(W<weight[start]) {
+				return evaluateValue(W,value,weight,start+1,end);
+			}else {
+				return Math.max(evaluateValue(W,value,weight,start+1,end), value[start]+evaluateValue(W-weight[start],value,weight,start+1,end));
+			}
+		}
+	}
+}
