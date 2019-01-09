@@ -10,7 +10,9 @@ public class KnapsackRecursive {
 		int[] weight = new int[] {23,31,29,44,53,38,63,85,89,82};
 		
 		int len = value.length;
+		// Stores Optimal Value
 		int[][] table1 = new int[W+1][len+1];
+		// Stores the first weight deducted for a particular Weight
 		int[] table2 = new int[W+1];
 		
 		int[] s = new int[len+1];
@@ -32,6 +34,8 @@ public class KnapsackRecursive {
 		}
 	}
 	
+	
+	// Calculates Optimal Value and Optimal Solution using Top Down Approach
 	public int evaluateValue(int W, int[] value, int[] weight, int len,int[][] table1, int[] table2) {
 		if(len<0 || W==0) {
 			return 0;
