@@ -50,7 +50,7 @@ public class KnapsackBU {
 						table1[i][j] = p;
 					}else {
 						table1[i][j] = q;
-						table2[i] = j-1;
+						table2[i] = weight[j-1];
 					}
 				}
 			}
