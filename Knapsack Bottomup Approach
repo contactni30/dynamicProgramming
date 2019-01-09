@@ -1,0 +1,59 @@
+package optimalSolution;
+
+public class KnapsackBU {
+
+	
+	public static void main(String args[]) {
+		int W = 165;
+		int[] value = new int[] {92,57,49,68,60,43,67,84,87,72};
+		int[] weight = new int[] {23,31,29,44,53,38,63,85,89,82};
+		
+		int len = value.length;
+    // Stores Optimal Value
+		int[][] table1 = new int[W+1][len+1];
+    // Stores first weight picked from the sack for the particular weight index
+		int[] table2 = new int[W+1];
+		
+		KnapsackBU knap = new KnapsackBU();
+		knap.evaluateValue(W,value,weight,table1,table2);
+		
+		System.out.println(table1[W][len]);
+		
+		knap.printValue(table2,W);
+	}
+	
+  // Prints the optimal solution
+	public void printValue(int[] table2,int W) {
+		if(W==0) {
+			System.out.print("");
+		}else {
+			System.out.print(table2[W]+ "  ");
+			printValue(table2,W-table2[W]);
+		}
+	}
+	
+  // Calculates the optimal value in Bottom Up approach
+	public void evaluateValue(int W, int[] value, int[] weight, int[][] table1, int[] table2) {
+		int len = value.length;
+		
+		
+		for(int i=0;i<=W;i++) {
+			for(int j=0;j<=len;j++) {
+				if(i==0 || j==0) {
+					table1[i][j] = 0;
+				}else if(weight[j-1]>i) {
+					table1[i][j] = table1[i][j-1];
+				}else {
+					int p = table1[i][j-1];
+					int q = value[j-1]+table1[i-weight[j-1]][j-1];
+					if(p>q) {
+						table1[i][j] = p;
+					}else {
+						table1[i][j] = q;
+						table2[i] = j-1;
+					}
+				}
+			}
+		}
+	}
+}
