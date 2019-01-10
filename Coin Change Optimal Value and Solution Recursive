@@ -1,0 +1,77 @@
+package optimalSolution1;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class CoinChangeRecursive {
+
+	
+	public static void main(String args[]) {
+		int N = 10;
+		int[] S = new int[] {2,5,3,6};
+		
+    // stores the value of N as String , till N becomes zero
+		String s = "";
+    // adds string s above to arraylist if N becomes zero
+		ArrayList<String> al = new ArrayList<String>();
+		
+		int len = S.length;
+    // Stores optimal value
+		int[][] table1 = new int[N+1][len+1];
+		
+		CoinChangeRecursive coin = new CoinChangeRecursive();
+		int res = coin.evaluateValue(N,S,len-1,s,al,table1);
+		
+
+		System.out.println("Optimal number of solutions : "+ res);
+		System.out.println("\nOptimal Solution : ");
+		coin.printOptimalSolution(al);
+		
+	}
+	
+  
+  // Prints Optimal Solution
+	public void printOptimalSolution(ArrayList<String> al) {
+		
+		for(int i=0;i<al.size();i++) {
+			String s = al.get(i);
+			ArrayList<Integer> al1 = new ArrayList<Integer>();
+			StringTokenizer st = new StringTokenizer(s," ");
+			while(st.hasMoreTokens()) {
+				int a = Integer.parseInt(st.nextToken());
+				al1.add(a);
+			}
+			
+			System.out.print((i+1)+".) ");
+			int p = al1.get(0);
+			for(int j=1;j<al1.size();j++) {
+				int q = al1.get(j);
+				if(p!=q) {
+					System.out.print((p-q)+" ");
+				}
+				p = q;
+			}
+			System.out.println();
+			
+		}
+	}
+	
+	// Calculates Optimal Value and stores Optimal Solution
+	public int evaluateValue(int N, int[] S, int len, String s, ArrayList<String> al, int[][] table1) {
+		if(len<0 || N<0) {
+			return 0;
+		}else if(N==0) {
+			s = s + " " + 0;
+			al.add(s);
+			return 1;
+		}else {
+			s = s + " " + N;
+			int p = evaluateValue(N,S,len-1,s,al,table1);
+			int q = evaluateValue(N-S[len],S,len,s,al,table1);
+			table1[N][len+1] = p + q;
+			return table1[N][len+1];
+		}
+	}
+	
+	
+}
