@@ -1,0 +1,55 @@
+package optimalSolution;
+
+public class CoinChangeRecursive {
+
+	public static void main(String args[]) {
+		int N = 10;
+		int[] S = new int[] {2,5,3,6};
+		
+		int len = S.length;
+		int[][] table1 = new int[N+1][len+1];
+		
+		CoinChangeRecursive coin = new CoinChangeRecursive();
+		int res = coin.evaluateValue(N,S,len-1,table1);
+		
+		System.out.println("Optimal number of solutions : "+ res);
+		
+		System.out.println("\nOptimal Solution is : ");
+		
+		String s = "";
+		int m = N;
+		coin.printSolution(table1,S,N,len-1,s,m);
+	}
+	
+  
+  // Prints Optimal Solution based on optimal value stored in table
+	public void printSolution(int[][] table1, int[] S, int N, int len, String s, int m) {
+		if(N==0) {
+			s = s + " " + m;
+			System.out.println("--> "+s);
+		}else if(N<0 ||  table1[N][len+1]==0) {
+			System.out.print("");
+		}else {
+			if(m-N>0) {
+				s = s + " "+(m-N);
+				m = N;
+			}
+			printSolution(table1,S,N,len-1,s,m);
+			printSolution(table1,S,N-S[len],len,s,m);
+		}
+	}
+	
+  // Calculates Optimal Value
+	public int evaluateValue(int N, int[] S, int len, int[][] table1) {
+		if(N==0) {
+			return 1;
+		}else if(N<0 || len<0) {
+			return 0;
+		}else if(table1[N][len+1]!=0) {
+			return table1[N][len+1];
+		}else {
+			table1[N][len+1] = evaluateValue(N,S,len-1,table1) + evaluateValue(N-S[len],S,len,table1);
+			return table1[N][len+1];
+		}
+	}
+}
