@@ -1,0 +1,58 @@
+package optimalSolution;
+
+public class CoinChangeBU {
+
+	
+	public static void main(String args[]) {
+		int N = 10;
+		int[] S = new int[] {2,5,3,6};
+		
+		int len = S.length;
+		int[][] table1 = new int[N+1][len+1];
+		
+		CoinChangeBU coin = new CoinChangeBU();
+		coin.evaluateValue(N,S,len,table1);
+		
+		System.out.println("Optimal number of Solutions : "+table1[N][len]);
+		
+		String s = "";
+		int m = N;
+		System.out.println("\nOptimal Solutions are : ");
+		coin.printValue(N,S,len-1,table1,s,m);
+	}
+	
+	// Prints Optimal Solution
+	public void printValue(int N, int[] S,int len, int[][] table1, String s, int m) {
+		if(N==0) {
+			s = s + " " +m;
+			System.out.println("-->  "+s);
+		}else if(N<0 || len<0) {
+			System.out.print("");
+		}else {
+			if(m-N>0) {
+				s = s +" "+(m-N);
+				m = N;
+			}
+			printValue(N,S,len-1,table1,s,m);
+			printValue(N-S[len],S,len,table1,s,m);
+		}
+	}
+	
+  // Calculates Optimal Value in Bottom up fashion
+	public void evaluateValue(int N, int[] S, int len, int[][] table1) {
+		for(int i=1;i<=len;i++) {
+			table1[0][i] = 1;
+		}
+		
+		for(int i=1;i<=len;i++) {
+			for(int j=1;j<=N;j++) {
+				if(j-S[i-1]>=0) {
+					table1[j][i] = table1[j][i] + table1[j-S[i-1]][i];
+				}
+				if(i-1>0) {
+					table1[j][i] = table1[j][i] + table1[j][i-1];
+				}
+			}
+		}
+	}
+}
