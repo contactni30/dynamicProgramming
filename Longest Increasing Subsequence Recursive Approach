@@ -1,0 +1,63 @@
+package optimalSolution1;
+
+public class LISRecursive {
+
+	
+	public static void main(String args[]) {
+		//int arr[] = new int[] {10,22,9,33,21,50,41,60,80};
+		int arr[] = new int[] {50, 3, 10, 7, 40, 80};
+		
+		int len = arr.length;
+		String[] table1 = new String[len];
+		String s = "";
+		
+		int[] table2 = new int[len];
+		for(int i=0;i<len;i++) {
+			table2[i] = 0;
+		}
+		
+		LISRecursive lis = new LISRecursive();
+		
+		String res = "";
+		int count  = Integer.MIN_VALUE;
+		for(int i=0;i<len;i++) {
+			if(table2[i]==0) {
+				table2[i] = 1;
+				s = arr[i] + " ";
+				int p = 1 + lis.evaluateValue(arr,i+1,arr[i],s,table1,i,table2);
+				if(p>count) {
+					count = p;
+					//System.out.println(table1[i]);
+					s = table1[i];
+				}
+			}
+		}
+		
+		
+		System.out.println("Optimal Value of Solution  : "+count);
+		System.out.println("Optimal Solution : "+s);
+	}
+	
+	
+	
+	public int evaluateValue(int[] arr, int x, int m, String s, String[] table1, int k,int[] table2) {
+		if(x>=arr.length) {
+			table1[k] = s;			
+			return 0;
+		}else {
+			if(arr[x]>m) {
+				int p = evaluateValue(arr,x+1,m,s,table1,k,table2);
+				s = s + arr[x] +" ";
+				int q = 1 + evaluateValue(arr,x+1,arr[x],s,table1,k,table2);
+				if(p>q) {
+					return p;
+				}else {
+					table2[x] = 1;
+					return q;
+				}
+			}else {
+				return evaluateValue(arr,x+1,m,s,table1,k,table2);
+			}
+		}
+	}
+}
