@@ -1,0 +1,65 @@
+package optimalSolution2;
+
+public class LISBU {
+
+	
+	public static void main(String args[]) {
+		int arr[] = new int[] {3,4,-1,0,6,2,3};
+		
+		int len = arr.length;
+		
+		int[] table1 = new int[len];
+		for(int i=0;i<len;i++) {
+			table1[i] = 1;
+		}
+		
+		int[] table2 = new int[len];
+		
+		LISBU lis = new LISBU();
+		lis.evaluate(arr,table1,table2);
+		
+		int max = Integer.MIN_VALUE;
+		int x = -1;
+		
+		for(int i=0;i<len;i++) {
+			int p = table1[i];
+			if(max<p) {
+				max = p;
+				x = i;
+			}
+		}
+		
+		
+		System.out.println("Optimal Value : " + max);
+		
+		String s = "";
+		
+		while(x!=0) {
+			s = s + arr[x] + " ";
+			x = table2[x];
+		}
+		
+		System.out.println("Optimal Solution :  "+s);
+	}
+	
+	public void evaluate(int[] arr, int[] table1, int[] table2) {
+		int len = arr.length;
+		
+		for(int i=1;i<len;i++) {
+				
+			for(int j=0;j<i;j++) {
+				
+				if(arr[j] < arr[i]) {
+					int p = table1[i];
+					int q = table1[j] + 1;
+						if(q>=p) {
+							table1[i] = q;
+							table2[i] = j;
+							
+						}
+					
+				}
+			}
+		}
+	}
+}
