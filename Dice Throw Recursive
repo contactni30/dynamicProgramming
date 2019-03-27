@@ -1,0 +1,30 @@
+package test3;
+
+// https://www.geeksforgeeks.org/dice-throw-dp-30/
+
+public class DiceThrow {
+
+	public static void main(String args[]) {
+		int n = 6;
+		int m = 3;
+		int x = 8;
+		
+		int res = evaluate(n,m,x);
+		
+		System.out.println("Optimal Value : "+res);
+	}
+	
+	public static int evaluate(int n, int m, int x) {
+		if(n==0 && x==0) {
+			return 1;
+		}else if(n==0) {
+			return 0;
+		}else {
+			int count = 0;
+			for(int i=1;i<=m;i++) {
+				count = count + evaluate(n-1,m,x-i);
+			}
+			return count;
+		}
+	}
+}
