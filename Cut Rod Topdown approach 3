@@ -1,0 +1,49 @@
+package practice1;
+
+public class CutRod {
+	
+	static int count = 0;
+	
+	public static void main(String args[]) {
+		int[] arr = new int[] {1,5,8,9,10,17,17,20,24,30};
+		int len = arr.length;
+		
+		int table1[] = new int[len+1];
+		int table2[] = new int[len+1];
+		
+		int x = 5;
+		int res = cutRod(arr,x,table1,table2);
+		
+		//System.out.println(table2[9]);
+		
+		while(x!=0) {
+			System.out.print(table2[x] + "  ");
+			x = x - table2[x];
+		}
+	}
+	
+	public static int cutRod(int[] arr, int x, int[] table1, int[] table2) {
+		if(x<=0){
+			return 0;
+		}else if(table1[x]!=0) {
+			return table1[x];
+		}else {
+			int k = 0;
+			int max = Integer.MIN_VALUE;
+			for(int i=0;i<x;i++) {
+				int p = arr[i] + cutRod(arr,x-1-i,table1,table2);
+				if(max<p) {
+					max = p;
+					k = i+1;
+				}
+			}
+			table1[x] = max;
+			table2[x] = k;
+			return max;
+
+		}
+	}
+
+
+
+}
